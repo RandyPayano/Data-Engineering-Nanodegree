@@ -6,6 +6,17 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Description: This function can be used to read the file in the filepath (data/song)
+    to read the song and artist information and insert them into their respective tables.
+
+    Arguments:
+        cur: the cursor object to our database connection. 
+        filepath: log data file path. 
+
+    Returns:
+        None
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -19,6 +30,17 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    Description: This function can be used to read the file in the filepath (data/log_data)
+    to insert user, songplay and time records into postgres.
+
+    Arguments:
+        cur: the cursor object. 
+        filepath: log data file path. 
+
+    Returns:
+        None
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -43,7 +65,7 @@ def process_log_file(cur, filepath):
     for i, row in user_df.iterrows():
         cur.execute(user_table_insert, row)
 
-    # insert songplay records
+    # insert songplay records 
     for index, row in df.iterrows():
         
         # get songid and artistid from song and artist tables
@@ -61,6 +83,17 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    Description: Recursively process and load data from the filepath directory location
+    for chosen function
+    
+    Args:
+        cur: Cursor to our database
+        conn: Connection to database
+        filepath: Filepath to the data directory to process
+        func: Function to run for chosen processing file
+    """
+
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -80,7 +113,16 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+    """
+    Description: Creates a database connection, processes Song and Log information, before closing
+    the cursor and database connection.
+    Arguments:
+        None
+
+    Returns:
+        None
+    """
+    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb2 user=postgres password=datapassword")
     cur = conn.cursor()
 
     process_data(cur, conn, filepath='data/song_data', func=process_song_file)
