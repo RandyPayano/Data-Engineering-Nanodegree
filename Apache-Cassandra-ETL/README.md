@@ -14,6 +14,14 @@ the Sparkify analytics team has provided us with the following analytical querie
 
 3. Provide every user name (first and last) in my music app history who listened to the song 'All Hands Against His Own'
 
+## Datasets
+
+Our dataset consists of individual CSV files inside the event_data directory.
+```
+event_data/2018-11-08-events.csv
+event_data/2018-11-09-events.csv
+
+```
 ## ETL Pipeline
 
 To complete the ETL process, we will iterate over our individual CSV files inside event_data directory and create a single event data file using a python script, which we will then use to insert data into our Apache Cassandra tables to answer our analytical queries.
