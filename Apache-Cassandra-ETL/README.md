@@ -8,25 +8,25 @@ and they would like a data engineer to create an Apache Cassandra database that 
 Given that we need to have the queries we want to run before we create our Cassandra tables in order to optimize our database,
 the Sparkify analytics team has provided us with the following analytical queries:
 
-1. Provide the artist, song title and song's length in the music app history that was heard during sessionId = 338, and itemInSession = 4:
+1. Provide the artist, song title and song's length in the music app history that was heard during sessionId = 338, and itemInSession = 4
 
-2. Give me only the following: name of artist, song (sorted by itemInSession) and user (first and last name) for userid = 10, sessionid = 182:
+2. Provide the following: name of artist, song (sorted by itemInSession) and user (first and last name) for userid = 10, sessionid = 182
 
-3. Give me every user name (first and last) in my music app history who listened to the song 'All Hands Against His Own':
-
-## Project Description
-
-### To run the .ipynb file, follow instructions below:
-
-1. Load the Docker image using the instructions below.
-2. Make sure the unzipped `event_data` folder is in the same directory as the "Project_1B_Data_Modeling_with_Cassandra.ipynb" file.
-3. Run all cells in the "Project_1B_Data_Modeling_with_Cassandra.ipynb" file.
-4. Verify that all three queries return the expected data based on the three query requirement questions in the notebook.
+3. Provide every user name (first and last) in my music app history who listened to the song 'All Hands Against His Own'
 
 ## ETL Pipeline
-I was provided with part of the ETL pipeline that transfers data from a set of CSV files within a directory to create a streamlined CSV file to model and insert data into Apache Cassandra tables. The provided project template takes care of all the imports and provides a structure for an ETL pipeline that I needed to process this data.
 
-## To run locally follow the following steps to set up a cassandra container with Docker:
+To complete the ETL process, we will iterate over our individual CSV files inside event_data directory and create a single event data file using a python script, which we will then use to insert data into our Apache Cassandra tables to answer our analytical queries.
+
+
+## Running project
+```
+1. Follow the instructions on running the Cassandra image locally outlined below.
+2. Run the "Apache_Cassandra_ETL.ipynb" notebook from the top.
+3. Verify that our tables satisfy our analytical queries. 
+```
+
+## Set up a cassandra container with Docker:
 
 ```
 docker pull cassandra
