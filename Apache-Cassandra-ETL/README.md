@@ -17,7 +17,9 @@ the Sparkify analytics team has provided us with the following analytical querie
 ## Datasets
 
 Our dataset consists of individual CSV files inside the event_data directory.
+
 ```
+Example files:
 event_data/2018-11-08-events.csv
 event_data/2018-11-09-events.csv
 
