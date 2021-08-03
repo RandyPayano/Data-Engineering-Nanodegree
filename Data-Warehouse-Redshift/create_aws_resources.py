@@ -4,6 +4,7 @@ import json
 import configparser
 from config_update import config_update
 from Iam_Role import create_iam_role, delete_iam_role
+from Redshift_Cluster import create_redshift_cluster
 from botocore.exceptions import ClientError
 
 
@@ -25,7 +26,7 @@ iam_client = boto3.client("iam",
                     aws_secret_access_key=SECRET
                     )
 
-redshift = boto3.client("redshift",
+redshift_client = boto3.client("redshift",
                     region_name="us-west-2",
                     aws_access_key_id=KEY,
                     aws_secret_access_key=SECRET
@@ -45,6 +46,8 @@ ec2 = boto3.resource("ec2",
 
 
 
-create_iam_role(config_path, iam_client)
+#create_iam_role(config_path, iam_client)
 
-delete_iam_role(config_path, iam_client)
+#delete_iam_role(config_path, iam_client)
+
+create_redshift_cluster(config_path, redshift_client)
