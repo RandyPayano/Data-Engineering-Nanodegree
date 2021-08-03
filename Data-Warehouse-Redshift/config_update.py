@@ -1,7 +1,7 @@
 import configparser
 from botocore.exceptions import ClientError
 
-def config_updatee(cfg_file, section, key, new_value):
+def config_update(cfg_file, section, key, new_value):
     """Updates configuration file
     Args:
         cfg_file (configparser object): Configuration file to update
