@@ -4,7 +4,8 @@ import json
 import configparser
 from config_update import config_update
 from Iam_Role import create_iam_role, delete_iam_role
-from Redshift_Cluster import create_redshift_cluster
+from Redshift_Cluster import create_redshift_cluster, delete_redshift_cluster
+from cluster_status import cluster_status_traffic 
 from botocore.exceptions import ClientError
 
 
@@ -17,7 +18,7 @@ config.read_file(open(config_path))
 
 KEY                    = config.get('AWS','KEY')
 SECRET                 = config.get('AWS','SECRET')
-
+CLUSTER_IDENTIFIER =  config.get("DWH", "dwh_cluster_identifier")
 ## Creating Redshift, S3 and IAM, EC2 clients
 
 iam_client = boto3.client("iam",
@@ -50,4 +51,11 @@ ec2 = boto3.resource("ec2",
 
 #delete_iam_role(config_path, iam_client)
 
-create_redshift_cluster(config_path, redshift_client)
+#create_redshift_cluster(config_path, redshift_client)
+
+#cluster_status_traffic(CLUSTER_IDENTIFIER, redshift_client)
+cluster_status_traffic(CLUSTER_IDENTIFIER, redshift_client)
+
+delete_redshift_cluster(config,redshift_client)
+
+cluster_status_traffic(CLUSTER_IDENTIFIER, redshift_client)

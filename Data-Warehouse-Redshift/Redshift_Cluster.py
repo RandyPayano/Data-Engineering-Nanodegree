@@ -6,11 +6,9 @@ import configparser
 
 def create_redshift_cluster(cfg_file_path, redshift_client):
     """Creates AWS redshift cluster
-
     Args:
         cfg_file_path (string): Path to configuration file
         redshift_client ([type]): [description]
-
     Returns:
         [type]: [description]
     """
@@ -33,7 +31,7 @@ def create_redshift_cluster(cfg_file_path, redshift_client):
 
     # Check if cluster already exists
     try:
-        response = redshift_client.describe_clusters(ClusterIdentifier=config.get('CLUSTER', 'CLUSTERIDENTIFIER'))
+        response = redshift_client.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)
         print('Cluster already exists: ' + response['Clusters'][0]['ClusterIdentifier'])
         return None
     except:
@@ -65,3 +63,22 @@ def create_redshift_cluster(cfg_file_path, redshift_client):
         except Exception as e:
             print(f"Error {e}")
             return None
+
+########## change
+def delete_redshift_cluster(config, redshift_client):
+    """Deletes AWS Redshift Cluster
+    Args:
+        config (ConfigParser object): Configuration File to define Resource configuration
+    Returns:
+        dictionary: AWS Redshift Information
+    """
+    try:
+        response = redshift_client.delete_cluster(
+            ClusterIdentifier=config.get('DWH', 'dwh_cluster_identifier'),
+            SkipFinalClusterSnapshot=True
+        )
+    except:
+        print("Redshift Cluster '%s' does not exist!" % (config.get('DWH', 'dwh_cluster_identifier')))
+        return None
+    else:
+        return response['Cluster']
