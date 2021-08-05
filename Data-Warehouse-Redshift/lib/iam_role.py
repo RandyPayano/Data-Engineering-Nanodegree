@@ -1,8 +1,7 @@
 import boto3
 import configparser
 import json
-from config_update import config_update
-import pandas as pd
+from lib.config_update import config_update
 
 
 def create_iam_role(cfg_file_path, iam):
@@ -48,12 +47,13 @@ def create_iam_role(cfg_file_path, iam):
                 RoleName = RoleName,
                 PolicyArn = Policy_Arn
             )
-            print(f"Created: IAM Role: {RoleName}, Policy attached: {Policy_Arn}")
+            
             # Store Role Arn
             RoleArn = iam.get_role(RoleName=RoleName)['Role']['Arn']
             # Save value into config
             config_update('func.cfg', "AWS", "RoleArn", RoleArn)
-
+            print(f"Created: IAM Role: {RoleName}, Policy attached: {Policy_Arn}")
+            print("")
             return dwhRole
 
         except Exception as e:
@@ -78,12 +78,13 @@ def delete_iam_role(cfg_file_path, iam):
     Policy_Arn = cfg_file.get('AWS','PolicyArn')
 
     # Detach role policy & DELETE role
-    
-    
     try:
         response = iam.detach_role_policy(RoleName=RoleName, PolicyArn=Policy_Arn), iam.delete_role(RoleName=RoleName)
+        
+        config_update('func.cfg', "AWS", "RoleArn", "<>")
         print(f"Policy detached successfully: {Policy_Arn}")
         print(f"Role deleted successfully: {RoleName}")
+        print("")
         return response
     except Exception as e:
         print(f"Error: {e}")
