@@ -1,9 +1,9 @@
   
 import boto3
 import configparser
-from iam_role import delete_iam_role
-from redshift_cluster import delete_redshift_cluster, wait_for_cluster_deletion
-from vpc_security_group import delete_security_group
+from lib.iam_role import delete_iam_role
+from lib.redshift_cluster import delete_redshift_cluster, wait_for_cluster_deletion
+from lib.vpc_security_group import delete_security_group
 
 ## Reading Configuration Params
 config_path = 'func.cfg'
