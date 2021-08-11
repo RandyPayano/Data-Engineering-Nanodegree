@@ -1,6 +1,6 @@
 import configparser
 import time
-
+from lib.config_update import config_update
 def create_redshift_cluster(cfg_file_path, redshift_client):
     """Creates AWS redshift cluster
     Args:
@@ -79,6 +79,8 @@ def wait_for_cluster_creation(cfg_file_path, redshift_client):
           print(f"Cluster status: {cluster_status}")
           
           if cluster_status  == 'available':
+              host_ = redshift_client.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)['Clusters'][0]['Endpoint']['Address']
+              config_update(cfg_file_path, 'CLUSTER', 'HOST', host_)
               break
           time.sleep(90)
         return None
