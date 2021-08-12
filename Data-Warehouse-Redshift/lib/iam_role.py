@@ -45,13 +45,13 @@ def create_iam_role(cfg_file_path, iam):
             print(f"Attaching Policy: {Policy_Arn}")
             iam.attach_role_policy(
                 RoleName = RoleName,
-                PolicyArn = Policy_Arn
+                PolicyArn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
             )
             
             # Store Role Arn
             RoleArn = iam.get_role(RoleName=RoleName)['Role']['Arn']
             # Save value into config
-            config_update('func.cfg', "AWS", "RoleArn", RoleArn)
+            config_update('func.cfg', 'AWS', 'RoleArn', RoleArn)
             print(f"Created: IAM Role: {RoleName}, Policy attached: {Policy_Arn}")
             print("")
             return dwhRole
@@ -79,9 +79,9 @@ def delete_iam_role(cfg_file_path, iam):
 
     # Detach role policy & DELETE role
     try:
-        response = iam.detach_role_policy(RoleName=RoleName, PolicyArn=Policy_Arn), iam.delete_role(RoleName=RoleName)
+        response = iam.detach_role_policy(RoleName=RoleName, PolicyArn="arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"), iam.delete_role(RoleName=RoleName)
         
-        config_update('func.cfg', "AWS", "RoleArn", "<>")
+        config_update('func.cfg', 'AWS', "RoleArn", "<>")
         print(f"Policy detached successfully: {Policy_Arn}")
         print(f"Role deleted successfully: {RoleName}")
         print("")
@@ -93,3 +93,5 @@ def delete_iam_role(cfg_file_path, iam):
 
 
     return None
+  
+  

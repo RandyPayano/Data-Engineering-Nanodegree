@@ -14,6 +14,7 @@ def create_redshift_cluster(cfg_file_path, redshift_client):
     config.read_file(open(cfg_file_path))
     roleArn                = config.get('AWS','rolearn')
     DWH_CLUSTER_TYPE       = config.get("DWH","DWH_CLUSTER_TYPE")
+    DHW_ROLEARN =   config.get("DWH","RoleArn")
     DWH_NUM_NODES          = config.get("DWH","DWH_NUM_NODES")
     DWH_NODE_TYPE          = config.get("DWH","DWH_NODE_TYPE")
     DWH_CLUSTER_IDENTIFIER = config.get("DWH","DWH_CLUSTER_IDENTIFIER")
@@ -46,9 +47,12 @@ def create_redshift_cluster(cfg_file_path, redshift_client):
                     MasterUserPassword=DWH_DB_PASSWORD,
                 
                 # parameter for role (to allow s3 access)
-                IamRoles=[roleArn]
+                IamRoles=[DHW_ROLEARN]
             
             )
+            print(type(DHW_ROLEARN))
+            
+            print(type(str(DHW_ROLEARN)))
             print("Redshift Cluster created")
             return response['Cluster']
 
