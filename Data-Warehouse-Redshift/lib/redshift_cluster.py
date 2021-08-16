@@ -50,9 +50,7 @@ def create_redshift_cluster(cfg_file_path, redshift_client):
                 IamRoles=[DHW_ROLEARN]
             
             )
-            print(type(DHW_ROLEARN))
-            
-            print(type(str(DHW_ROLEARN)))
+ 
             print("Redshift Cluster created")
             return response['Cluster']
 

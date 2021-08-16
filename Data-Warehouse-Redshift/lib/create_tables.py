@@ -4,18 +4,18 @@ from lib.sql_queries import create_table_queries, drop_table_queries
 
 
 def drop_tables(cur, conn):
-    
+    print("Dropping TABLES")
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Dropping TABLES")
+    
 
 def create_tables(cur, conn):
-    
+    print("Creating Tables") 
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Creating Tables")    
+       
 
 
 def create_tables_schemas():
@@ -29,8 +29,8 @@ def create_tables_schemas():
     create_tables(cur, conn)
 
     conn.close()
-    print("CLOSED")
-
+    print("Star schema created successfully")
+    print("")
 
 if __name__ == "__main__":
     create_tables_schemas()

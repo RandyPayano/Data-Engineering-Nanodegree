@@ -6,9 +6,7 @@ from lib.delete_aws_resources import delete_aws_resources
 import pandas as pd
 #from lib.create_tables import create_tables_schemas
 #from lib.sql_queries import create_table_queries, drop_table_queries
-from lib.sql_queries import gogo
-
-
+from lib.sql_queries import sql_queries
 
 
 
@@ -17,60 +15,68 @@ def drop_tables(cur, conn):
     for query in drop_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Dropping TABLES")
+    print("Tables dropped")
+    print("")
 
 def create_tables(cur, conn):
     
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Creating Tables")   
+    print("Creating created")   
+    print("")
     
 def load_staging_tables(cur, conn):
     
     for query in copy_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Loading Staging Tables")
+    print("Staging tables loaded.")
+    print("")
 
 def insert_tables(cur, conn):
     
     for query in insert_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Inserting Tables")
-
+    print("Star schema tables loaded.")
+    print("")
 def main():
     # creating resources
     create_aws_resources()
     
+    # load configuration file
     config = configparser.ConfigParser()
     config.read('func.cfg')
+    
+    # connect to database
     conn = psycopg2.connect("host={} dbname={} user={} password={} port={}".format(*config['CLUSTER'].values()))
-    print(*config['CLUSTER'].values())
     cur = conn.cursor()
+    
+    # load sql queries after configuration file have changed
     global create_table_queries, drop_table_queries, copy_table_queries, insert_table_queries
-    create_table_queries, drop_table_queries, copy_table_queries, insert_table_queries = gogo()
+    create_table_queries, drop_table_queries, copy_table_queries, insert_table_queries = sql_queries()
 
+    # drop and create tables 
     drop_tables(cur, conn)
     create_tables(cur, conn)
-    print("create table finished")
+    
     # loading staging tables into cluster
     load_staging_tables(cur, conn)
-    print('stage loaded')
     
     # inserting into star schemas tables
     insert_tables(cur, conn)
-    print("star schema loaded")
     
-    question = input("To delete all AWS resources press: Y | To test database with queries press: T")
-    if question == "Y" or "y":
+    question = input("To delete all AWS resources press: Y | To query database press: T ---> :")
+    
+    if question == "Y" or question == "y":
         # closing connection 
         conn.close()
         # deleting resources 
         delete_aws_resources()
-    elif question == "T" or "t":
-        print("testing")
+        
+    elif question == "T" or question == "t":
+        print("--------------TEST--------------")
         try:
             cur.execute("""SELECT * FROM fact_songplay fs
                             JOIN dim_users on fs.user_id = dim_users.user_id
@@ -80,14 +86,23 @@ def main():
                             LIMIT 1
                             """)
             df = pd.DataFrame(cur.fetchone()).T  
-            print(df.shape)
-            print(df)
-            print("bye now.....")
+            print(df.values)
+            # close connection
             conn.close()
             # deleting resources 
             delete_aws_resources()
+            
         except:
-            print("error")
-
+            # close connection
+            conn.close()
+            # deleting resources 
+            delete_aws_resources()
+    else:
+        print("Wrong answer")
+        # close connection
+        conn.close()
+        # deleting resources 
+        delete_aws_resources()
+        
 if __name__ == "__main__":
     main()

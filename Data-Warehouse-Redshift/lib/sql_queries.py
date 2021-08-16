@@ -1,6 +1,6 @@
 import configparser
 
-def gogo():
+def sql_queries():
   # CONFIG
   configETL = configparser.ConfigParser()
   configETL.read('func.cfg')
@@ -183,4 +183,4 @@ def gogo():
   return create_table_queries, drop_table_queries, copy_table_queries, insert_table_queries 
 
 if __name__ == "__main__":
-    gogo()
+    sql_queries()
