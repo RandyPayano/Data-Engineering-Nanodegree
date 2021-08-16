@@ -14,18 +14,23 @@ Finally I'll test the database and ETL pipeline by running queries given by the 
 
 ### Project Structure
 ```
-Data-Warehouse-with-Redshift
-│   README.md              # Project description
-|   requirements.txt       # Python dependencies
-│
-└───src                    # Source code
+Data-Warehouse--Redshift
+│   README.md              # project description
+|   requirements.txt       # python dependencies
+|   func.cfg               # configuration file
+|   etl.py                 # script to run ETL process
+|
+└───lib                         # functions library 
 |   |
-│   │  create_resources.py # Resources creation script
-|   |  sql_objects.py      # Definition of all sql objects
-|   |  etl.py              # ETL script
-|   |  validation.py       # Validates data load
-|   |  delete_resources.py # Resources deletion script
-|   |  dwh.cfg             # Configuration file
+|   |  config_update.py         # updates configuration file
+│   │  create_aws_resources.py  # creates aws resources
+|   |  redshift.py              # functions to create and delete redshift cluster
+|   |  iam_role.py              # functions to create and delete iam role
+|   |  vpc_security_group.py    # functions to create and delete security groups
+|   |  sql_queries.py           # function to define all sql objects
+|   |  create_table.py          # creates table schema using sql_queries defined objects
+|   |  validation.py            # Validates data load
+|   |  delete_aws_resources.py  # deletes aws resources
 ```
 
 ### Requirements for running locally
