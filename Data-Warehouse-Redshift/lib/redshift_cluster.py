@@ -75,14 +75,18 @@ def wait_for_cluster_creation(cfg_file_path, redshift_client):
         
         while True:
           print("-"*15, "Checking Cluster Status")
+          
           response = redshift_client.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)
           cluster_info = response['Clusters'][0]
           cluster_status = cluster_info['ClusterStatus']
           print(f"Cluster status: {cluster_status}")
+         
           
           if cluster_status  == 'available':
+              print("")
               host_ = redshift_client.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)['Clusters'][0]['Endpoint']['Address']
               config_update(cfg_file_path, 'CLUSTER', 'HOST', host_)
+              print("")
               break
           time.sleep(90)
         return None

@@ -40,7 +40,8 @@ def create_security_group(cfg_file_path, ec2_client, redshift_client):
     
     if response is None:
         # Assuming the security goroup doesn't exist, go ahead and create it
-        print("-" * 15,"Creation Security Group")
+        print("-" * 15,"Creating Security Group")
+        print("")
         try:
             ###### Make sure security group name is in config
             response = ec2_client.create_security_group(GroupName= Group_Name,

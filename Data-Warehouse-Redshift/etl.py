@@ -23,7 +23,7 @@ def create_tables(cur, conn):
     for query in create_table_queries:
         cur.execute(query)
         conn.commit()
-    print("Creating created")   
+    print("Tables created")   
     print("")
     
 def load_staging_tables(cur, conn):
@@ -77,6 +77,7 @@ def main():
         
     elif question == "T" or question == "t":
         print("--------------TEST--------------")
+        print("")
         try:
             cur.execute("""SELECT * FROM fact_songplay fs
                             JOIN dim_users on fs.user_id = dim_users.user_id
@@ -87,6 +88,7 @@ def main():
                             """)
             df = pd.DataFrame(cur.fetchone()).T  
             print(df.values)
+            print("")
             # close connection
             conn.close()
             # deleting resources 

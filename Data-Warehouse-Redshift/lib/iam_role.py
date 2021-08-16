@@ -13,7 +13,7 @@ def create_iam_role(cfg_file_path, iam):
       dictionary: IAM Role Information
     """
     print("-" * 15, "Creating Role")
-
+    print("")
     # Get config file from path
     cfg_file = configparser.ConfigParser()
     cfg_file.read_file(open(cfg_file_path))
