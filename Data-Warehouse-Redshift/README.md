@@ -18,7 +18,7 @@ Data-Warehouse--Redshift
 │   README.md              # project description
 |   requirements.txt       # python dependencies
 |   func.cfg               # configuration file
-|   etl.py                 # script to run ETL process
+|   etl.py                 # script to run entire ETL process
 |
 └───lib                         # functions library 
 |   |
