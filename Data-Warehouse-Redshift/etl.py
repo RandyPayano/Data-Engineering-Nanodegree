@@ -64,32 +64,17 @@ def main():
     # inserting into star schemas tables
     insert_tables(cur, conn)
     
-    
-    
-    
     # validation
     
+    question = input("To delete all AWS resources press: Y | To query database press: T ---> :").lower()
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    question = input("To delete all AWS resources press: Y | To query database press: T ---> :")
-    
-    if question == "Y" or question == "y":
+    if question == "y":
         # closing connection 
         conn.close()
         # deleting resources 
         delete_aws_resources()
         
-    elif question == "T" or question == "t":
-        print("--------------TEST--------------")
+    if question == "t":
         print("")
         try:
             cur.execute("""select fs.location, count(distinct(users.user_id)) as count from dim_users as users join fact_songplay as fs on users.user_id = fs.user_id Group By fs.location ORDER BY count Desc LIMIT 5"""
