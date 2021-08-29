@@ -77,7 +77,8 @@ def main():
     if question == "t":
         print("")
         try:
-            cur.execute("""
+            cur.execute("""select fs.location, count(distinct(users.user_id)) as count from dim_users as users join fact_songplay as fs on users.user_id = fs.user_id Group By fs.location ORDER BY count Desc LIMIT 5"""
+          )
             df = pd.DataFrame(cur.fetchone()).T  
             print(df.values)
             print("")
